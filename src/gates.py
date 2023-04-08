@@ -2,27 +2,28 @@ from __future__ import annotations
 
 import jax.numpy as jnp
 
+from .qubit import Qubit
+
 from typing import Optional, Union
 
 class Gate:
     def __init__(self, matrix: jnp.ndarray, name: Optional[str] = None):
-        self.name = (name or "gate").title()
+        self.name = (name or "gate").upper()
         self.matrix = matrix
 
     def __repr__(self):
         """Returns a string representation of the gate"""
         return f"{self.name} {self.matrix.shape}"
 
-    def __call__(self, x: jnp.ndarray):
+    def __call__(self, x: Qubit):
         """Applies the gate to the given state"""
-        y = (self.matrix @ x)
-        return y / jnp.linalg.norm(y) * jnp.linalg.norm(x)
+        return Qubit(self.matrix @ x.vector, name=x.name)
 
     def __mul__(self, other: Union[Gate, jnp.ndarray]) -> Union[Gate, jnp.ndarray]:
         """Multiplies the gate with another gate or a state"""
         if isinstance(other, Gate):
             return Gate(self.matrix @ other.matrix, name=f"{self.name} * {other.name}")
-        elif isinstance(other, jnp.ndarray):
+        elif isinstance(other, Qubit):
             return self(other)
         raise TypeError(f"Cannot multiply Gate with {type(other)}")
     
@@ -34,7 +35,7 @@ class Gate:
             return self + Gate(other)
         raise TypeError(f"Cannot add Gate with {type(other)}")
 
-    def __matmul__(self, qubit: jnp.ndarray) -> jnp.ndarray:
+    def __matmul__(self, qubit: Qubit) -> jnp.ndarray:
         """Applies the gate to the given state"""
         return self(qubit)
 
