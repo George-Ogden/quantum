@@ -25,11 +25,8 @@ def deutsch_algorithm(oracle: Oracle):
     output = (large_hadamard + identity) @ output_state
 
     # measure the first qubit and return the result
-    print(output_state)
-    first_qubit = output.vector[:2]
-    measurement = jnp.linalg.norm(jnp.dot(first_qubit, jnp.array([1, -1]) / jnp.sqrt(2)))
-    return measurement
+    return output_state.measure(basis=jnp.array([1, -1]) / jnp.sqrt(2), bit=0)
 
 if __name__ == "__main__":
-    result = deutsch_algorithm(Oracle.from_table([1,1,0,0]))  # should return 1
+    result = deutsch_algorithm(Oracle.from_table([0,0,1,1]))  # should return 1
     print(result)
