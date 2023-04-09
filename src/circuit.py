@@ -4,8 +4,8 @@ import jax.numpy as jnp
 
 from typing import Optional, Union
 
-from src.gate import Gate
 from src.qubit import Qubit
+from src.gate import Gate
 
 class Circuit:
     def __init__(self, gates: list[Gate], name: Optional[str] = None):
@@ -54,6 +54,10 @@ class Circuit:
     def __len__(self) -> int:
         """Returns the number of gates in the circuit"""
         return len(self.gates)
+
+    def __repr__(self) -> str:
+        """Returns a string representation of the circuit"""
+        return f"{self.name} {self.gates}"
     
     def to_gate(self) -> Gate:
         """Converts the circuit to a gate"""
