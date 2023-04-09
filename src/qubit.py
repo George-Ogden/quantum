@@ -49,5 +49,8 @@ class Qubit:
 
             basis = new_basis
 
-        # TODO: update state after measurement
+        if len(basis) == 2:
+            n = jnp.log2(len(self.vector)).astype(int)
+            basis = jnp.kron(jnp.eye(n - bit), jnp.kron(basis, jnp.eye(bit + 1)))
+
         return (hermitian(self.vector) @ hermitian(basis) @ basis @ to_matrix(self.vector)).reshape(())
