@@ -11,7 +11,7 @@ class Qubit:
         self.vector = vector / jnp.linalg.norm(vector)
     
     @staticmethod
-    def from_value(value: int, length: int, name: Optional[str] = None) -> Qubit:
+    def from_value(value: int, length: int = 1, name: Optional[str] = None) -> Qubit:
         vector = jnp.zeros(2 ** length, dtype=jnp.float32)
         vector = vector.at[value].set(1)
         return Qubit(vector, name)
@@ -37,10 +37,17 @@ class Qubit:
         # convert basis to matrix
         if basis.ndim == 1:
             # convert bit to selection of bits
-            indices = jnp.arange(len(self.vector))
-            basis = jnp.stack((indices & (1 << bit), indices & (1 << bit) ^ 1), axis=-1) * basis
-            basis = basis.sum(axis=-1)
-            basis = jnp.outer(to_matrix(basis), hermitian(basis))
+            new_basis = jnp.zeros((len(self.vector), len(self.vector)), dtype=jnp.float32)
+            for i in range(len(self.vector)):
+                j = i | (1 << bit)
+                if i == j:
+                    continue
+                base = jnp.zeros_like(self.vector)
+                base = base.at[i].set(basis[0])
+                base = base.at[j].set(basis[1])
+                new_basis += jnp.outer(to_matrix(base), hermitian(base))
+
+            basis = new_basis
 
         # TODO: update state after measurement
-        return hermitian(self.vector) @ hermitian(basis) @ basis @ to_matrix(self.vector)
+        return (hermitian(self.vector) @ hermitian(basis) @ basis @ to_matrix(self.vector)).reshape(())
