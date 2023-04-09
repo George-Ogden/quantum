@@ -1,7 +1,7 @@
 from __future__ import annotations
 import jax.numpy as jnp
 
-from .gates import Gate
+from .gate import Gate
 
 class Oracle(Gate):
     @staticmethod

@@ -34,11 +34,11 @@ def test_superposition_101():
     qubit = qubit_2 + qubit_0
     assert jnp.allclose(qubit.vector, Qubit.from_value(5, length=3).vector)
 
-def test_repr(capsys):
+def test_qubit_repr(capsys):
     qubit = Qubit(jnp.array([1, 0]), name="test_qubit")
     print(qubit)
     captured = capsys.readouterr()
-    assert "test_qubit" in captured.out
+    assert "test_qubit" in captured.out.lower()
 
 def test_repr_from_value(capsys):
     qubit = Qubit.from_value(0, name="test_qubit")

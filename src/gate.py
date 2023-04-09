@@ -39,6 +39,12 @@ class Gate:
         """Applies the gate to the given state"""
         return self(qubit)
 
+    def __eq__(self, gate: Gate) -> bool:
+        """Checks if the gate is equal to another gate"""
+        if not isinstance(gate, Gate):
+            return False
+        return self.matrix.shape == gate.matrix.shape and jnp.allclose(self.matrix, gate.matrix)
+
     @staticmethod
     def Identity(n: int) -> Gate:
         return Gate(jnp.eye(2 ** n), "identity")
