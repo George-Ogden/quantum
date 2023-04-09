@@ -1,6 +1,4 @@
 import jax.numpy as jnp
-import numpy as np
-import pytest
 
 from src.gate import *
 from src.qubit import Qubit
@@ -8,68 +6,58 @@ from src.qubit import Qubit
 
 def test_gate_creation_no_name():
     mat = jnp.array([[1, 0], [0, 1]])
-    g = Gate(mat)
-    assert jnp.allclose(g.matrix, mat)
+    gate = Gate(mat)
+    assert jnp.allclose(gate.matrix, mat)
 
 def test_gate_creation_with_name():
     mat = jnp.array([[1, 0], [0, 1]])
-    g = Gate(mat, "I")
-    assert g.name == "I"
-    assert jnp.allclose(g.matrix, mat)
+    gate = Gate(mat, "I")
+    assert gate.name == "I"
+    assert jnp.allclose(gate.matrix, mat)
 
 def test_gate_call():
     mat = jnp.array([[0, 1], [1, 0]])
-    q = Qubit(jnp.array([1, 0]), "q")
-    g = Gate(mat)
-    new_q = g(q)
-    assert jnp.allclose(new_q.vector, jnp.array([0, 1]))
+    qubit = Qubit(jnp.array([1, 0]), "q")
+    gate = Gate(mat)
+    assert gate(qubit) == jnp.array([0, 1])
 
 def test_gate_gate_mat_multiplication():
-    g1 = Gate(jnp.array([[0, 1], [1, 0]]), "X")
-    g2 = Gate(jnp.array([[1, 0], [0, -1]]), "Z")
-    g3 = g1 * g2
-    expected = jnp.array([[0, -1], [1, 0]])
-    assert jnp.allclose(g3.matrix, expected)
+    gate_1 = Gate(jnp.array([[0, 1], [1, 0]]), "X")
+    gate_2 = Gate(jnp.array([[1, 0], [0, -1]]), "Z")
+    assert gate_1 * gate_2 == jnp.array([[0, -1], [1, 0]])
 
 def test_gate_qubit_mat_multiplication():
-    q = Qubit(jnp.array([1, 0]), "q")
-    g = Gate(jnp.array([[0, 1], [1, 0]]), "X")
-    new_q = g @ q
-    expected = jnp.array([0, 1])
-    assert jnp.allclose(new_q.vector, expected)
+    qubit = Qubit(jnp.array([1, 0]), "q")
+    gate = Gate(jnp.array([[0, 1], [1, 0]]), "X")
+    assert gate @ qubit == jnp.array([0, 1])
 
 def test_gate_multiplication():
-    g1 = Gate(jnp.array([[0, 1], [1, 0]]), "X")
-    g2 = Gate(jnp.array([[1, 0], [0, -1]]), "Z")
-    g3 = g1 * g2
-    expected = jnp.array([[0, -1], [1, 0]])
-    assert jnp.allclose(g3.matrix, expected)
+    gate_1 = Gate(jnp.array([[0, 1], [1, 0]]), "X")
+    gate_2 = Gate(jnp.array([[1, 0], [0, -1]]), "Z")
+    assert gate_1 * gate_2 == jnp.array([[0, -1], [1, 0]])
 
 def test_gate_gate_addition():
-    g1 = Gate(jnp.array([[1, 0], [0, 1]]), "I")
-    g2 = Gate(jnp.array([[0, 1], [1, 0]]), "X")
-    g3 = g1 + g2
-    expected = jnp.array([[0, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]])
-    assert jnp.allclose(g3.matrix, expected)
+    gate_1 = Gate(jnp.array([[1, 0], [0, 1]]), "I")
+    gate_2 = Gate(jnp.array([[0, 1], [1, 0]]), "X")
+    assert gate_1 + gate_2 == jnp.array([[0, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]])
 
 def test_gate_repr(capsys):
-    g = Gate(jnp.array([[1, 0], [0, 1]]), "gate_name")
-    print(g)
+    gate = Gate(jnp.array([[1, 0], [0, 1]]), "gate_name")
+    print(gate)
     captured = capsys.readouterr()
     assert 'gate_name' in captured.out.lower()
 
 def test_single_bit_Identity():
-    g = Gate.Identity(1)
-    assert jnp.allclose(g.matrix, jnp.array([[1, 0], [0, 1]]))
+    gate = Gate.Identity(1)
+    assert gate == jnp.array([[1, 0], [0, 1]])
 
 def test_two_bit_Identity():
-    g = Gate.Identity(2)
-    expected = jnp.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
-    assert jnp.allclose(g.matrix, expected)
+    gate = Gate.Identity(2)
+    assert gate == jnp.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
 
 def test_three_bit_Identity():
-    g = Gate.Identity(3)
-    expected = jnp.array([
+    gate = Gate.Identity(3)
+    assert gate == jnp.array([
         [1, 0, 0, 0, 0, 0, 0, 0],
         [0, 1, 0, 0, 0, 0, 0, 0],
         [0, 0, 1, 0, 0, 0, 0, 0],
@@ -79,7 +67,6 @@ def test_three_bit_Identity():
         [0, 0, 0, 0, 0, 0, 1, 0],
         [0, 0, 0, 0, 0, 0, 0, 1],
     ])
-    assert jnp.allclose(g.matrix, expected)
 
 def test_pauli_x_gate():
     qubit_0 = Qubit.from_value(0)
@@ -94,15 +81,15 @@ def test_hadamard_gate():
     qubit_plus = Qubit(jnp.array([1, 1]) / jnp.sqrt(2))
     qubit_minus = Qubit(jnp.array([1, -1]) / jnp.sqrt(2))
     gate = hadamard
-    assert jnp.allclose(gate(qubit_0).measure(qubit_plus), 1)
-    assert jnp.allclose(gate(qubit_1).measure(qubit_minus), 1)
+    assert gate(qubit_0) == qubit_plus
+    assert gate(qubit_1) == qubit_minus
 
 def test_identity_gate():
     qubit_0 = Qubit.from_value(0)
     qubit_1 = Qubit.from_value(1)
     gate = identity
-    assert jnp.allclose(gate(qubit_0).measure(0), 1)
-    assert jnp.allclose(gate(qubit_1).measure(1), 1)
+    assert gate(qubit_0) == qubit_0
+    assert gate(qubit_1) == qubit_1
 
 def test_neutral_gate():
     gate = hadamard

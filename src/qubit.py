@@ -57,8 +57,10 @@ class Qubit:
 
         return (hermitian(self.vector) @ hermitian(basis) @ basis @ to_matrix(self.vector)).reshape(())
 
-    def __eq__(self, other: Qubit) -> bool:
+    def __eq__(self, qubit: Union[Qubit, jnp.ndarray]) -> bool:
         """Checks if the qubit is equal to another qubit"""
-        if not isinstance(other, Qubit):
+        if isinstance(qubit, jnp.ndarray):
+            qubit = Qubit(qubit)
+        if not isinstance(qubit, Qubit):
             return False
-        return len(self.vector) == len(other.vector) and jnp.allclose(self.vector, other.vector)
+        return len(self.vector) == len(qubit.vector) and jnp.allclose(self.vector, qubit.vector)

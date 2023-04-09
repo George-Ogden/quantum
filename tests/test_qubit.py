@@ -25,14 +25,12 @@ def test_multi_bit_5():
 def test_superposition_10():
     qubit_1 = Qubit.from_value(1, length=1)
     qubit_0 = Qubit.from_value(0, length=1)
-    qubit = qubit_1 + qubit_0
-    assert jnp.allclose(qubit.vector, Qubit.from_value(2, length=2).vector)
+    assert qubit_1 + qubit_0 == Qubit.from_value(2, length=2)
 
 def test_superposition_101():
     qubit_2 = Qubit.from_value(2, length=2)
-    qubit_0 = Qubit.from_value(1, length=1)
-    qubit = qubit_2 + qubit_0
-    assert jnp.allclose(qubit.vector, Qubit.from_value(5, length=3).vector)
+    qubit_1 = Qubit.from_value(1, length=1)
+    assert qubit_2 + qubit_1 == Qubit.from_value(5, length=3)
 
 def test_qubit_repr(capsys):
     qubit = Qubit(jnp.array([1, 0]), name="test_qubit")
