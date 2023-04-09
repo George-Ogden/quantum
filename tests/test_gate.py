@@ -71,7 +71,7 @@ def test_three_bit_Identity():
 def test_pauli_x_gate():
     qubit_0 = Qubit.from_value(0)
     qubit_1 = Qubit.from_value(1)
-    gate = pauli_x
+    gate = Pauli_X
     assert gate(qubit_0) == qubit_1
     assert gate(qubit_1) == qubit_0
 
@@ -80,21 +80,21 @@ def test_hadamard_gate():
     qubit_1 = Qubit.from_value(1)
     qubit_plus = Qubit(jnp.array([1, 1]) / jnp.sqrt(2))
     qubit_minus = Qubit(jnp.array([1, -1]) / jnp.sqrt(2))
-    gate = hadamard
+    gate = Hadamard
     assert gate(qubit_0) == qubit_plus
     assert gate(qubit_1) == qubit_minus
 
 def test_identity_gate():
     qubit_0 = Qubit.from_value(0)
     qubit_1 = Qubit.from_value(1)
-    gate = identity
+    gate = Identity
     assert gate(qubit_0) == qubit_0
     assert gate(qubit_1) == qubit_1
 
 def test_neutral_gate():
-    gate = hadamard
-    assert gate + neutral == gate
-    assert neutral + gate == gate
+    gate = Hadamard
+    assert gate + Neutral == gate
+    assert Neutral + gate == gate
 
 def test_cnot_gate_0_1_basis():
     qubit_0 = Qubit.from_value(0)
