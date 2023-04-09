@@ -15,4 +15,3 @@ class Oracle(Gate):
             U = U.at[x * 2, x * 2 + 1].set(y)
             U = U.at[x * 2 + 1, x * 2].set(y)
         return Oracle(U, "oracle")
-

@@ -24,6 +24,19 @@ class Qubit:
         """Puts the qubit in an entangled state with another qubit"""
         return Qubit(jnp.kron(self.vector, other.vector), name=f"{self.name} + {other.name}")
 
+    def __eq__(self, qubit: Union[Qubit, jnp.ndarray]) -> bool:
+        """Checks if the qubit is equal to another qubit"""
+        if isinstance(qubit, jnp.ndarray):
+            qubit = Qubit(qubit)
+        if not isinstance(qubit, Qubit):
+            return False
+        return len(self.vector) == len(qubit.vector) and jnp.allclose(self.vector, qubit.vector)
+
+    @property
+    def n(self) -> int:
+        """Returns the number of qubits the gate acts on"""
+        return int(jnp.ceil(jnp.log2(self.matrix.shape[0])))
+
     def measure(self, basis: Optional[Union[Qubit, jnp.ndarray, int]] = None, bit: int = 0):
         """Measures the qubit"""
         # default to 1 as the basis
@@ -56,11 +69,3 @@ class Qubit:
             basis = jnp.kron(jnp.eye(n - bit), jnp.kron(basis, jnp.eye(bit + 1)))
 
         return (hermitian(self.vector) @ hermitian(basis) @ basis @ to_matrix(self.vector)).reshape(())
-
-    def __eq__(self, qubit: Union[Qubit, jnp.ndarray]) -> bool:
-        """Checks if the qubit is equal to another qubit"""
-        if isinstance(qubit, jnp.ndarray):
-            qubit = Qubit(qubit)
-        if not isinstance(qubit, Qubit):
-            return False
-        return len(self.vector) == len(qubit.vector) and jnp.allclose(self.vector, qubit.vector)
