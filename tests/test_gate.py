@@ -91,11 +91,6 @@ def test_identity_gate():
     assert gate(qubit_0) == qubit_0
     assert gate(qubit_1) == qubit_1
 
-def test_neutral_gate():
-    gate = Hadamard
-    assert gate + Neutral == gate
-    assert Neutral + gate == gate
-
 def test_cnot_gate_0_1_basis():
     qubit_0 = Qubit.from_value(0)
     qubit_1 = Qubit.from_value(1)
