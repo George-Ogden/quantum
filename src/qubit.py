@@ -69,3 +69,12 @@ class Qubit:
             basis = jnp.kron(jnp.eye(n - bit), jnp.kron(basis, jnp.eye(bit + 1)))
 
         return (hermitian(self.vector) @ hermitian(basis) @ basis @ to_matrix(self.vector)).reshape(())
+
+    @staticmethod
+    def entangle(*qubits: Qubit) -> Qubit:
+        return sum(qubits[1:], start=qubits[0])
+
+Zero = Qubit.from_value(0, name="zero")
+One = Qubit.from_value(1, name="one")
+Plus = Qubit(jnp.array([1, 1]) / jnp.sqrt(2), name="plus")
+Minus = Qubit(jnp.array([1, -1]) / jnp.sqrt(2), name="minus")

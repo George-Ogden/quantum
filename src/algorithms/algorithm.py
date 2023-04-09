@@ -29,4 +29,4 @@ class Algorithm(ABC):
         return self.measure(self.circuit(self.start_state))
 
     def __repr__(self) -> str:
-        return f"{self.name} ({self.circuit})"
+        return f"{self.name} Algorithm ({self.circuit})"
