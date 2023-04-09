@@ -1,0 +1,7 @@
+# cached files
+__pycache__/
+*.py[cod]
+
+# pytest cache
+.cache
+.pytest_cache/
