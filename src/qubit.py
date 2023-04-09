@@ -37,7 +37,7 @@ class Qubit:
         """Returns the number of qubits the gate acts on"""
         return int(jnp.ceil(jnp.log2(self.matrix.shape[0])))
 
-    def measure(self, basis: Optional[Union[Qubit, jnp.ndarray, int]] = None, bit: int = 0):
+    def measure(self, basis: Optional[Union[Qubit, jnp.ndarray, int]] = None, bit: int = 0) -> float:
         """Measures the qubit"""
         # default to 1 as the basis
         if basis is None:

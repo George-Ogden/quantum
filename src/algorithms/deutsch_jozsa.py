@@ -1,26 +1,27 @@
-import jax.numpy as jnp
+from ..oracle import Oracle
+from ..gate import *
+from ..qubit import Qubit
+from ..circuit import Circuit
 
-from src.oracle import Oracle
-from src.gate import *
-from src.qubit import Qubit
+from .algorithm import Algorithm
 
-def DeutschJoszaAlgorithm(oracle: Oracle):
-    n = oracle.n
-    x = Qubit.from_value(0, n, "x")
-    y = Qubit.from_value(0, 1, "y")
-
-    large_hadamard = sum([hadamard for _ in range(n)], start=neutral)
-
-    # prepare states
-    x, y = large_hadamard @ x, hadamard @ y
-    entangled_state = x + y
-
-    # run entangled state through oracle
-    output_state = oracle(entangled_state)
-
-    # measure the first qubit and return the result
-    return output_state.measure(basis=jnp.array([1, -1]) / jnp.sqrt(2), bit=0)
-
-if __name__ == "__main__":
-    result = DeutschJoszaAlgorithm(Oracle.from_table([0,0,1,1]))  # should return 1
-    print(result)
+class DeutschJoszaAlgorithm(Algorithm):
+    def __init__(self, oracle: Oracle):
+        self.oracle = oracle
+        self.n = oracle.n
+        super().__init__("Deutsch-Jozsa")
+    
+    def build_circuit(self) -> Circuit:
+        large_hadamard = Gate.parallel(*[hadamard] * self.n)
+        return Circuit([
+            large_hadamard + Gate.Identity(1),
+            Gate.Identity(self.n) + hadamard,
+            self.oracle
+        ], "Deutsch-Jozsa")
+    
+    def get_start_state(self) -> Qubit:
+        return Qubit.from_value(0, length=self.n, name="x") + Qubit.from_value(1, length=1, name="y")
+    
+    def measure(self, qubit: Qubit) -> float:
+        print(qubit)
+        return qubit.measure(basis=jnp.array([1, -1]) / jnp.sqrt(2), bit=self.n)
