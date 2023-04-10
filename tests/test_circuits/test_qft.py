@@ -1,7 +1,7 @@
 from itertools import product
 import jax.numpy as jnp
 
-from src.circuits import QuantumFourierTransform as QFT
+from src.circuits import QuantumFourierTransform as QFT, InverseQuantumFourierTransform as IQFT
 from src.qubit import Qubit
 
 def test_qft_2():
@@ -33,3 +33,24 @@ def test_qft_4():
             Qubit(jnp.array([1, jnp.exp(jnp.pi * 1j * (js[3] / 4 + js[2] / 2 + js[1]))]) / jnp.sqrt(2)),
             Qubit(jnp.array([1, jnp.exp(jnp.pi * 1j * (js[3] / 8 + js[2] / 4 + js[1] / 2 + js[0]))]) / jnp.sqrt(2))
         )
+
+def test_iqft_2():
+    qft = QFT(2)
+    iqft = IQFT(2)
+    for i in range(4):
+        qubit = Qubit.from_value(i, length=2)
+        assert iqft(qft(qubit)) == qubit
+
+def test_iqft_3():
+    qft = QFT(3)
+    iqft = IQFT(3)
+    for i in range(8):
+        qubit = Qubit.from_value(i, length=3)
+        assert iqft(qft(qubit)) == qubit
+
+def test_iqft_4():
+    qft = QFT(4)
+    iqft = IQFT(4)
+    for i in range(16):
+        qubit = Qubit.from_value(i, length=4)
+        assert iqft(qft(qubit)) == qubit
