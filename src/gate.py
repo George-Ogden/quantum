@@ -24,7 +24,7 @@ class Gate:
         if isinstance(other, jnp.ndarray):
             other = Gate(other)
         if isinstance(other, Gate):
-            return Gate(self.matrix @ other.matrix, name=f"{self.name} * {other.name}")
+            return Gate(self.matrix @ other.matrix, name=f"({self.name} * {other.name})")
         raise TypeError(f"Cannot multiply Gate with {type(other)}")
     
     def __add__(self, other: Union[Gate, jnp.ndarray]) -> Gate:
@@ -32,7 +32,7 @@ class Gate:
         if isinstance(other, jnp.ndarray):
             other = Gate(other)
         if isinstance(other, Gate):
-            return Gate(jnp.kron(self.matrix, other.matrix), name=f"{self.name} + {other.name}")
+            return Gate(jnp.kron(self.matrix, other.matrix), name=f"({self.name} + {other.name})")
         raise TypeError(f"Cannot add Gate with {type(other)}")
 
     def __matmul__(self, qubit: Qubit) -> Qubit:
@@ -59,7 +59,7 @@ class Gate:
 
     @staticmethod
     def Identity(n: int) -> Gate:
-        return Gate(jnp.eye(2 ** n), "identity")
+        return Gate(jnp.eye(int(2 ** n)), "identity")
     
     @staticmethod
     def Swap(n: int) -> Gate:
@@ -71,8 +71,13 @@ class Gate:
         return Gate(matrix @ jnp.kron(jnp.eye(2 ** (n - 1)), swap) @ jnp.linalg.inv(matrix), "SWAP")
 
     @staticmethod
-    def R(n: int):
-        return Gate(jnp.array([[1, 0], [0, jnp.exp(2 * jnp.pi * 1j / 2 ** n)]]), f"R({n})")
+    def R(n: int) -> Gate:
+        return Gate(jnp.array([[1, 0], [0, jnp.exp(2 * jnp.pi * 1j / (2 ** n))]]), f"R({n})")
+
+    @staticmethod
+    def CROT(n: int) -> Gate:
+        """Returns a gate that controls the given gate"""
+        return Gate(jnp.block([[Gate.Identity(1).matrix, jnp.zeros((2, 2))], [jnp.zeros((2, 2)), Gate.R(n).matrix]]), f"CROT({n})")
     
     @staticmethod
     def parallel(*gates: Gate) -> Gate:

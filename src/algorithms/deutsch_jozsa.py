@@ -1,6 +1,6 @@
 from ..gate import Gate, Hadamard, Identity
 from ..qubit import Qubit, Minus
-from ..circuit import Circuit
+from ..circuits.circuit import Circuit
 from ..oracle import Oracle
 
 from .algorithm import Algorithm

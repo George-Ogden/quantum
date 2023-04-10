@@ -15,7 +15,6 @@ class Circuit:
     def __call__(self, qubit: Qubit) -> Qubit:
         for gate in self.gates:
             qubit = gate(qubit)
-            print(qubit)
         return qubit
     
     def __mul__(self, other: Union[Circuit, Gate, jnp.ndarray]) -> Circuit:

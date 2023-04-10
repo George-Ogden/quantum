@@ -5,7 +5,7 @@ from typing import List
 from ..utils import hermitian, to_matrix
 from ..qubit import Qubit, Minus, Plus, One
 from ..gate import Gate, Hadamard, Identity
-from ..circuit import Circuit
+from ..circuits.circuit import Circuit
 from ..oracle import Oracle
 
 from .algorithm import Algorithm
@@ -34,7 +34,6 @@ class GroversAlgorithm(Algorithm):
         return Qubit.from_value(0, length=self.n) + Minus
     
     def measure(self, qubit: Qubit) -> List[float]:
-        print(qubit, self.n)
         return [
             qubit.measure(basis=One, bit=i)
             for i in reversed(range(1, self.n + 1))

@@ -18,7 +18,7 @@ class Qubit:
     
     def __repr__(self):
         """Returns a string representation of the qubit"""
-        return f"{self.name} {self.vector.tolist()}"
+        return f"{self.name} {self.vector}"
     
     def __add__(self, other: Qubit) -> Qubit:
         """Puts the qubit in an entangled state with another qubit"""
