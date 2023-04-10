@@ -13,3 +13,9 @@ class QuantumFourierTransform(Circuit):
         for i in range(n // 2):
             gates.append(Gate.Identity(i) + Gate.Swap(n - 2 * i - 1) + Gate.Identity(i))
         super().__init__(gates, "QFT")
+
+class InverseQuantumFourierTransform(Circuit):
+    def __init__(self, n: int):
+        qft = QuantumFourierTransform(n)
+        gates = [gate.inverse for gate in reversed(qft.gates)]
+        super().__init__(gates, "IQFT")

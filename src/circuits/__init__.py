@@ -1,1 +1,1 @@
-from .qft import QuantumFourierTransform
+from .qft import InverseQuantumFourierTransform, QuantumFourierTransform
