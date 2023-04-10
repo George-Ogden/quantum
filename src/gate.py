@@ -48,6 +48,11 @@ class Gate:
         return self.matrix.shape == gate.matrix.shape and jnp.allclose(self.matrix, gate.matrix)
 
     @property
+    def inverse(self) -> Gate:
+        """Returns the inverse of the gate"""
+        return Gate(jnp.linalg.inv(self.matrix), f"inv({self.name})")
+
+    @property
     def n(self) -> int:
         """Returns the number of qubits the gate acts on"""
         return int(jnp.ceil(jnp.log2(self.matrix.shape[0])))
@@ -55,6 +60,19 @@ class Gate:
     @staticmethod
     def Identity(n: int) -> Gate:
         return Gate(jnp.eye(2 ** n), "identity")
+    
+    @staticmethod
+    def Swap(n: int) -> Gate:
+        """Returns a gate that swaps the 0th and nth qubits"""
+        swap = jnp.array([[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
+        matrix = jnp.eye(2 ** (n + 1))
+        for i in range(n - 1):
+            matrix @= jnp.kron(jnp.eye(2 ** i), jnp.kron(swap, jnp.eye(2 ** (n - i - 1))))
+        return Gate(matrix @ jnp.kron(jnp.eye(2 ** (n - 1)), swap) @ jnp.linalg.inv(matrix), "SWAP")
+
+    @staticmethod
+    def R(n: int):
+        return Gate(jnp.array([[1, 0], [0, jnp.exp(2 * jnp.pi * 1j / 2 ** n)]]), f"R({n})")
     
     @staticmethod
     def parallel(*gates: Gate) -> Gate:
@@ -76,3 +94,4 @@ Hadamard = H = Gate(jnp.array([[1, 1], [1, -1]]), "H")
 Identity = I = Gate.Identity(1)
 Pauli_X = X = Gate(jnp.array([[0, 1], [1, 0]]), "X")
 CNOT = Gate(jnp.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]]), "CNOT")
+SWAP = Gate.Swap(1)
