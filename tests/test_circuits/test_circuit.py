@@ -1,7 +1,7 @@
 import jax.numpy as jnp
 import re
 
-from src.circuit import Circuit
+from src.circuits.circuit import Circuit
 from src.qubit import Qubit
 from src.gate import *
 
