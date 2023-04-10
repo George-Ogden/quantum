@@ -30,7 +30,7 @@ class Qubit:
             qubit = Qubit(qubit)
         if not isinstance(qubit, Qubit):
             return False
-        return len(self.vector) == len(qubit.vector) and jnp.allclose(self.vector, qubit.vector)
+        return len(self.vector) == len(qubit.vector) and jnp.allclose(self.vector, qubit.vector, atol=1e-5)
 
     @property
     def n(self) -> int:
