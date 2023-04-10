@@ -108,3 +108,86 @@ def test_cnot_gate_plus_minus_basis():
     assert gate(qubit_plus + qubit_minus) == qubit_minus + qubit_minus
     assert gate(qubit_minus + qubit_plus) == qubit_minus + qubit_plus
     assert gate(qubit_minus + qubit_minus) == qubit_plus + qubit_minus
+
+def test_swap_gate():
+    gate = SWAP
+    qubit_0 = Qubit.from_value(0, length=2)
+    qubit_1 = Qubit.from_value(1, length=2)
+    qubit_2 = Qubit.from_value(2, length=2)
+    qubit_3 = Qubit.from_value(3, length=2)
+    print(gate.matrix)
+
+    assert gate(qubit_0) == qubit_0
+    assert gate(qubit_1) == qubit_2
+    assert gate(qubit_2) == qubit_1
+    assert gate(qubit_3) == qubit_3
+
+def test_swap_gate_2():
+    gate = Gate.Swap(2)
+    qubit_0 = Qubit.from_value(0, length=3)
+    qubit_1 = Qubit.from_value(1, length=3)
+    qubit_2 = Qubit.from_value(2, length=3)
+    qubit_3 = Qubit.from_value(3, length=3)
+    qubit_4 = Qubit.from_value(4, length=3)
+    qubit_5 = Qubit.from_value(5, length=3)
+    qubit_6 = Qubit.from_value(6, length=3)
+    qubit_7 = Qubit.from_value(7, length=3)
+
+    assert gate(qubit_0) == qubit_0
+    assert gate(qubit_1) == qubit_4
+    assert gate(qubit_2) == qubit_2
+    assert gate(qubit_3) == qubit_6
+    assert gate(qubit_4) == qubit_1
+    assert gate(qubit_5) == qubit_5
+    assert gate(qubit_6) == qubit_3
+    assert gate(qubit_7) == qubit_7
+
+def test_swap_gate_3():
+    gate = Gate.Swap(3)
+    qubit_0 = Qubit.from_value(0, length=4)
+    qubit_1 = Qubit.from_value(1, length=4)
+    qubit_2 = Qubit.from_value(2, length=4)
+    qubit_3 = Qubit.from_value(3, length=4)
+    qubit_4 = Qubit.from_value(4, length=4)
+    qubit_5 = Qubit.from_value(5, length=4)
+    qubit_6 = Qubit.from_value(6, length=4)
+    qubit_7 = Qubit.from_value(7, length=4)
+    qubit_8 = Qubit.from_value(8, length=4)
+    qubit_9 = Qubit.from_value(9, length=4)
+    qubit_10 = Qubit.from_value(10, length=4)
+    qubit_11 = Qubit.from_value(11, length=4)
+    qubit_12 = Qubit.from_value(12, length=4)
+    qubit_13 = Qubit.from_value(13, length=4)
+    qubit_14 = Qubit.from_value(14, length=4)
+    qubit_15 = Qubit.from_value(15, length=4)
+
+    assert gate(qubit_0) == qubit_0
+    assert gate(qubit_1) == qubit_8
+    assert gate(qubit_2) == qubit_2
+    assert gate(qubit_3) == qubit_10
+    assert gate(qubit_4) == qubit_4
+    assert gate(qubit_5) == qubit_12
+    assert gate(qubit_6) == qubit_6
+    assert gate(qubit_7) == qubit_14
+    assert gate(qubit_8) == qubit_1
+    assert gate(qubit_9) == qubit_9
+    assert gate(qubit_10) == qubit_3
+    assert gate(qubit_11) == qubit_11
+    assert gate(qubit_12) == qubit_5
+    assert gate(qubit_13) == qubit_13
+    assert gate(qubit_14) == qubit_7
+    assert gate(qubit_15) == qubit_15
+
+def test_swap_gate_4():
+    gate = Gate.Swap(4)
+    qubit_0 = Qubit.from_value(0, length=5)
+    qubit_1 = Qubit.from_value(1, length=5)
+    qubit_15 = Qubit.from_value(15, length=5)
+    qubit_16 = Qubit.from_value(16, length=5)
+    qubit_30 = Qubit.from_value(30, length=5)
+
+    assert gate(qubit_0) == qubit_0
+    assert gate(qubit_1) == qubit_16
+    assert gate(qubit_15) == qubit_30
+    assert gate(qubit_16) == qubit_1
+    assert gate(qubit_30) == qubit_15
