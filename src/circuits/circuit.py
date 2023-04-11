@@ -4,8 +4,8 @@ import jax.numpy as jnp
 
 from typing import Optional, Union
 
-from src.qubit import Qubit
-from src.gate import Gate
+from ..qubit import Qubit
+from ..gate import Gate
 
 class Circuit:
     def __init__(self, gates: list[Gate], name: Optional[str] = None):

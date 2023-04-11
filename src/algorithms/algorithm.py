@@ -1,5 +1,5 @@
-from src.circuits.circuit import Circuit
-from src.qubit import Qubit
+from ..circuits.circuit import Circuit
+from ..qubit import Qubit
 
 from abc import ABC, abstractmethod
 from typing import Optional
