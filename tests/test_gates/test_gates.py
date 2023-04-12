@@ -59,7 +59,6 @@ def test_swap_gate():
     qubit_1 = Qubit.from_value(1, length=2)
     qubit_2 = Qubit.from_value(2, length=2)
     qubit_3 = Qubit.from_value(3, length=2)
-    print(gate.matrix)
 
     assert gate(qubit_0) == qubit_0
     assert gate(qubit_1) == qubit_2

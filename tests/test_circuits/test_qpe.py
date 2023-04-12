@@ -41,11 +41,6 @@ def test_qpe_small_3():
     controlled_gate = ControlledGate.from_gate(gate)
     eigenvector = Qubit(jnp.array([0, 1]))
     qpe = QPE(3, controlled_gate)
-    print(qpe)
-    print(
-        qpe(Zero + Zero + Zero + eigenvector)
-    )
-    print(Zero + Zero + One + eigenvector)
     assert qpe(
         Qubit.entangle(
             Qubit.from_value(0, length=3),

@@ -1,5 +1,4 @@
 import jax.numpy as jnp
-import re
 
 from src.circuits.circuit import Circuit
 from src.qubit import Qubit
@@ -76,7 +75,7 @@ def test_circuit_length():
     assert len(hadamard_circuit) == 1
 
 def test_circuit_repr(capsys):
-    circuit = Circuit([Hadamard, Pauli_X])
+    circuit = Circuit([Hadamard, Pauli_X], name="Hadamard-X")
     print(circuit)
     captured = capsys.readouterr()
-    assert re.search(r"H.*X", captured.out)
+    assert "Hadamard-X" in captured.out
