@@ -3,7 +3,7 @@ import jax.numpy as jnp
 
 from typing import Optional
 
-from .gate import Gate
+from .gates import Gate
 
 class Oracle(Gate):
     def __init__(self, matrix: jnp.ndarray, name: Optional[str] = None):

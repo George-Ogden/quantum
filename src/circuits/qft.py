@@ -1,4 +1,4 @@
-from ..gate import Gate, Hadamard, Identity
+from ..gates import Gate, Hadamard, Identity
 
 from .circuit import Circuit
 

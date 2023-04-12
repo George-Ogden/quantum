@@ -1,4 +1,4 @@
-from ..gate import Gate, Hadamard, Identity
+from ..gates import Gate, Hadamard, Identity
 from ..qubit import Qubit, Minus
 from ..circuits.circuit import Circuit
 from ..oracle import Oracle

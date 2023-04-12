@@ -4,7 +4,7 @@ from typing import List
 
 from ..utils import hermitian, to_matrix
 from ..qubit import Qubit, Minus, Plus, One
-from ..gate import Gate, Hadamard, Identity
+from ..gates import Gate, Hadamard, Identity
 from ..circuits.circuit import Circuit
 from ..oracle import Oracle
 

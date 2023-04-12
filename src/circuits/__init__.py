@@ -1,1 +1,2 @@
 from .qft import InverseQuantumFourierTransform, QuantumFourierTransform
+from .qpe import QuantumPhaseEstimation

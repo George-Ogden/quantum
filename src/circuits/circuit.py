@@ -5,7 +5,7 @@ import jax.numpy as jnp
 from typing import Optional, Union
 
 from ..qubit import Qubit
-from ..gate import Gate
+from ..gates import Gate
 
 class Circuit:
     def __init__(self, gates: list[Gate], name: Optional[str] = None):
@@ -61,4 +61,6 @@ class Circuit:
     
     def to_gate(self) -> Gate:
         """Converts the circuit to a gate"""
-        return Gate.serial(*self.gates)
+        gate = Gate.serial(*self.gates)
+        gate.name = self.name
+        return gate

@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import jax.numpy as jnp
 
-from .qubit import Qubit
-
 from typing import Optional, Union
+
+from ..qubit import Qubit
 
 class Gate:
     def __init__(self, matrix: jnp.ndarray, name: Optional[str] = None):
@@ -64,6 +64,8 @@ class Gate:
     @staticmethod
     def Swap(n: int) -> Gate:
         """Returns a gate that swaps the 0th and nth qubits"""
+        if n == 0:
+            return Gate.Identity(1)
         swap = jnp.array([[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
         matrix = jnp.eye(2 ** (n + 1))
         for i in range(n - 1):
@@ -94,9 +96,3 @@ class Gate:
         for gate in gates[1:]:
             product = product * gate
         return product
-
-Hadamard = H = Gate(jnp.array([[1, 1], [1, -1]]), "H")
-Identity = I = Gate.Identity(1)
-Pauli_X = X = Gate(jnp.array([[0, 1], [1, 0]]), "X")
-CNOT = Gate(jnp.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]]), "CNOT")
-SWAP = Gate.Swap(1)
