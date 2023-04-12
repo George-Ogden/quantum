@@ -1,8 +1,7 @@
 import jax.numpy as jnp
 
-from src.gate import *
-from src.qubit import Qubit
-
+from src.gates import *
+from src.qubit import Qubit, One, Zero, Plus, Minus
 
 def test_gate_creation_no_name():
     mat = jnp.array([[1, 0], [0, 1]])
@@ -69,45 +68,33 @@ def test_three_bit_Identity():
     ])
 
 def test_pauli_x_gate():
-    qubit_0 = Qubit.from_value(0)
-    qubit_1 = Qubit.from_value(1)
     gate = Pauli_X
-    assert gate(qubit_0) == qubit_1
-    assert gate(qubit_1) == qubit_0
+    assert gate(Zero) == One
+    assert gate(One) == Zero
 
 def test_hadamard_gate():
-    qubit_0 = Qubit.from_value(0)
-    qubit_1 = Qubit.from_value(1)
-    qubit_plus = Qubit(jnp.array([1, 1]) / jnp.sqrt(2))
-    qubit_minus = Qubit(jnp.array([1, -1]) / jnp.sqrt(2))
     gate = Hadamard
-    assert gate(qubit_0) == qubit_plus
-    assert gate(qubit_1) == qubit_minus
+    assert gate(Zero) == Plus
+    assert gate(One) == Minus
 
 def test_identity_gate():
-    qubit_0 = Qubit.from_value(0)
-    qubit_1 = Qubit.from_value(1)
     gate = Identity
-    assert gate(qubit_0) == qubit_0
-    assert gate(qubit_1) == qubit_1
+    assert gate(Zero) == Zero
+    assert gate(One) == One
 
 def test_cnot_gate_0_1_basis():
-    qubit_0 = Qubit.from_value(0)
-    qubit_1 = Qubit.from_value(1)
     gate = CNOT
-    assert gate(qubit_0 + qubit_0) == qubit_0 + qubit_0
-    assert gate(qubit_0 + qubit_1) == qubit_0 + qubit_1
-    assert gate(qubit_1 + qubit_0) == qubit_1 + qubit_1
-    assert gate(qubit_1 + qubit_1) == qubit_1 + qubit_0
+    assert gate(Zero + Zero) == Zero + Zero
+    assert gate(Zero + One) == Zero + One
+    assert gate(One + Zero) == One + One
+    assert gate(One + One) == One + Zero
 
 def test_cnot_gate_plus_minus_basis():
-    qubit_plus = Qubit(jnp.array([1, 1]) / jnp.sqrt(2))
-    qubit_minus = Qubit(jnp.array([1, -1]) / jnp.sqrt(2))
     gate = CNOT
-    assert gate(qubit_plus + qubit_plus) == qubit_plus + qubit_plus
-    assert gate(qubit_plus + qubit_minus) == qubit_minus + qubit_minus
-    assert gate(qubit_minus + qubit_plus) == qubit_minus + qubit_plus
-    assert gate(qubit_minus + qubit_minus) == qubit_plus + qubit_minus
+    assert gate(Plus + Plus) == Plus + Plus
+    assert gate(Plus + Minus) == Minus + Minus
+    assert gate(Minus + Plus) == Minus + Plus
+    assert gate(Minus + Minus) == Plus + Minus
 
 def test_swap_gate():
     gate = SWAP
