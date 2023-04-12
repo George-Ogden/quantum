@@ -1,5 +1,6 @@
 from itertools import product
 import jax.numpy as jnp
+import numpy as np
 
 from src.circuits import QuantumFourierTransform as QFT, InverseQuantumFourierTransform as IQFT
 from src.qubit import Qubit
@@ -54,3 +55,9 @@ def test_iqft_4():
     for i in range(16):
         qubit = Qubit.from_value(i, length=4)
         assert iqft(qft(qubit)) == qubit
+
+def test_iqft_complex():
+    qft = QFT(4)
+    iqft = IQFT(4)
+    qubit = Qubit(jnp.array([jnp.exp(1j * np.random.uniform(0, 2 * np.pi)) for _ in range(16)]) / 4)
+    assert iqft(qft(qubit)) == qubit

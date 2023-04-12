@@ -3,7 +3,7 @@ import re
 
 from src.circuits.circuit import Circuit
 from src.qubit import Qubit
-from src.gate import *
+from src.gates import *
 
 def test_basic_circuit():
     qubit_0 = Qubit.from_value(0)
