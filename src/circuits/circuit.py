@@ -13,6 +13,8 @@ class Circuit:
         self.name = (name or "Circuit").title()
     
     def __call__(self, qubit: Qubit) -> Qubit:
+        """Applies the circuit to the given qubit"""
+        # applies each gate in the circuit to the qubit
         for gate in self.gates:
             qubit = gate(qubit)
         return qubit

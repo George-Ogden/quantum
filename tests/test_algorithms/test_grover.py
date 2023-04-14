@@ -1,7 +1,7 @@
 import numpy as np
 
 from src.algorithms import GroversAlgorithm
-from src.oracle import Oracle
+from src.gates.oracle import Oracle
 
 def test_grover_small_0():
     table = [1, 0, 0, 0]

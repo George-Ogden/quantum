@@ -7,7 +7,14 @@ from typing import Optional, Union
 from ..qubit import Qubit
 
 class Gate:
+    """Gate class for quantum gates"""
     def __init__(self, matrix: jnp.ndarray, name: Optional[str] = None):
+        """create a Gate from a matrix
+
+        Args:
+            matrix (jnp.ndarray): a unitary matrix representing the gate
+            name (Optional[str], optional): name of the gate. Defaults to None.
+        """
         self.name = (name or "gate").upper()
         self.matrix = matrix
 
@@ -59,6 +66,7 @@ class Gate:
 
     @staticmethod
     def Identity(n: int) -> Gate:
+        """Creates an identity that operates on n qubits"""
         return Gate(jnp.eye(int(2 ** n)), "identity")
     
     @staticmethod
@@ -74,11 +82,19 @@ class Gate:
 
     @staticmethod
     def R(n: int) -> Gate:
+        """Creates an R gate  with phase 2^-n
+
+        Args:
+            n (int): the phase is 2^-n
+
+        Returns:
+            Gate: R_n gate
+        """
         return Gate(jnp.array([[1, 0], [0, jnp.exp(2 * jnp.pi * 1j / (2 ** n))]]), f"R({n})")
 
     @staticmethod
     def CROT(n: int) -> Gate:
-        """Returns a gate that controls the given gate"""
+        """Creates a controlled R Gate with phase 2^-n"""
         return Gate(jnp.block([[Gate.Identity(1).matrix, jnp.zeros((2, 2))], [jnp.zeros((2, 2)), Gate.R(n).matrix]]), f"CROT({n})")
     
     @staticmethod

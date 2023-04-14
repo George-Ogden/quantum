@@ -1,7 +1,7 @@
 import jax.numpy as jnp
 
 from src.algorithms import DeutschJoszaAlgorithm
-from src.oracle import Oracle
+from src.gates import Oracle
 
 def test_deutsch_jozsa_algorithm_balanced_1():
     table = [0, 0, 1, 1]

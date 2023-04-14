@@ -6,13 +6,32 @@ from typing import Optional, Union
 from .utils import hermitian, to_matrix
 
 class Qubit:
+    """Class for representing a qubit"""
     def __init__(self, vector: jnp.ndarray, name: Optional[str] = None):
+        """initialise a qubit from a vector
+
+        Args:
+            vector (jnp.ndarray): state of the qubit
+            name (Optional[str], optional): name of the qubit. Defaults to None.
+        """
         self.name = (name or "qubit").lower()
         self.vector = vector / jnp.linalg.norm(vector)
     
     @staticmethod
     def from_value(value: int, length: int = 1, name: Optional[str] = None) -> Qubit:
+        """initialise a qubit from a value
+
+        Args:
+            value (int): value of the qubit
+            length (int, optional): length of the qubit to return. Defaults to 1.
+            name (Optional[str], optional): name of the qubit. Defaults to None.
+
+        Returns:
+            Qubit: a qubit whose value is the binary representation of value
+        """
+        # create a vector of zeros
         vector = jnp.zeros(2 ** length, dtype=jnp.float32)
+        # set the value of the qubit
         vector = vector.at[value].set(1)
         return Qubit(vector, name)
     
@@ -34,7 +53,7 @@ class Qubit:
 
     @property
     def n(self) -> int:
-        """Returns the number of qubits the gate acts on"""
+        """Returns the number of classical bits needed to represent the qubit"""
         return int(jnp.ceil(jnp.log2(self.matrix.shape[0])))
 
     def measure(self, basis: Optional[Union[Qubit, jnp.ndarray, int]] = None, bit: int = 0) -> float:
@@ -72,8 +91,10 @@ class Qubit:
 
     @staticmethod
     def entangle(*qubits: Qubit) -> Qubit:
+        """entangles a list of qubits"""
         return sum(qubits[1:], start=qubits[0])
 
+# useful qubits
 Zero = Qubit.from_value(0, name="zero")
 One = Qubit.from_value(1, name="one")
 Plus = Qubit(jnp.array([1, 1]) / jnp.sqrt(2), name="plus")

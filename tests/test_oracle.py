@@ -1,4 +1,4 @@
-from src.oracle import Oracle
+from src.gates import Oracle
 from src.qubit import Qubit
 
 import jax.numpy as jnp

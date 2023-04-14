@@ -1,8 +1,10 @@
 import jax.numpy as jnp
 
 from .control import ControlledGate
+from .oracle import Oracle
 from .gate import Gate
 
+# construct useful gates
 Hadamard = H = Gate(jnp.array([[1, 1], [1, -1]]), "H")
 Identity = I = Gate.Identity(1)
 Pauli_X = X = Gate(jnp.array([[0, 1], [1, 0]]), "X")

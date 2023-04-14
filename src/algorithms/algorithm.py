@@ -5,7 +5,9 @@ from abc import ABC, abstractmethod
 from typing import Optional
 
 class Algorithm(ABC):
+    """Abstract base class for algorithms"""
     def __init__(self, name: Optional[str] = None):
+        # initialises by building circuits and getting start states
         self.circuit = self.build_circuit()
         self.start_state = self.get_start_state()
         self.name = (name or self.__class__.__name__).title()
@@ -19,6 +21,7 @@ class Algorithm(ABC):
         ...
 
     def __call__(self, *args, **kwargs) -> Qubit:
+        """Runs the algorithm"""
         return self.run(*args, **kwargs)
 
     @abstractmethod
@@ -26,6 +29,7 @@ class Algorithm(ABC):
         ...
 
     def run(self) -> Qubit:
+        """Runs the algorithm"""
         return self.measure(self.circuit(self.start_state))
 
     def __repr__(self) -> str:
