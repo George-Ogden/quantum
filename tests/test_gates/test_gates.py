@@ -1,7 +1,7 @@
 import jax.numpy as jnp
 
-from src.gates import *
-from src.qubit import Qubit, One, Zero, Plus, Minus
+from quantum.gates import *
+from quantum.qubit import Qubit, One, Zero, Plus, Minus
 
 def test_single_bit_Identity():
     gate = Gate.Identity(1)

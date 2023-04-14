@@ -1,8 +1,8 @@
 import jax.numpy as jnp
 
-from src.circuits.circuit import Circuit
-from src.qubit import Qubit
-from src.gates import *
+from quantum.circuits.circuit import Circuit
+from quantum.qubit import Qubit
+from quantum.gates import *
 
 def test_basic_circuit():
     qubit_0 = Qubit.from_value(0)

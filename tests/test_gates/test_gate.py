@@ -1,7 +1,7 @@
 import jax.numpy as jnp
 
-from src.gates import *
-from src.qubit import Qubit, One, Zero, Plus, Minus
+from quantum.gates import *
+from quantum.qubit import Qubit, One, Zero, Plus, Minus
 
 def test_gate_creation_no_name():
     mat = jnp.array([[1, 0], [0, 1]])

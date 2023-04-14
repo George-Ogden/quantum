@@ -1,7 +1,7 @@
 import jax.numpy as jnp
 
-from src.gates import ControlledGate, Gate, Pauli_X, CNOT, SWAP
-from src.qubit import Qubit
+from quantum.gates import ControlledGate, Gate, Pauli_X, CNOT, SWAP
+from quantum.qubit import Qubit
 
 def test_controlled_pauli_x_gate():
     gate = ControlledGate.from_gate(Pauli_X)

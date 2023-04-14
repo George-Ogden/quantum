@@ -1,5 +1,5 @@
-from src.gates import Oracle
-from src.qubit import Qubit
+from quantum.gates import Oracle
+from quantum.qubit import Qubit
 
 import jax.numpy as jnp
 

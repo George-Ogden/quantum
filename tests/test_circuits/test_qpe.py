@@ -1,8 +1,8 @@
 import jax.numpy as jnp
 
-from src.circuits import QuantumPhaseEstimation as QPE
-from src.qubit import Qubit, One, Zero
-from src.gates import ControlledGate, Gate
+from quantum.circuits import QuantumPhaseEstimation as QPE
+from quantum.qubit import Qubit, One, Zero
+from quantum.gates import ControlledGate, Gate
 
 def test_qpe_small_1():
     gate = Gate(jnp.array([[0, -1j], [1j, 0]]))

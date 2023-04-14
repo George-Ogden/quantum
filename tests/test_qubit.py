@@ -1,6 +1,6 @@
 import jax.numpy as jnp
 
-from src.qubit import Qubit
+from quantum.qubit import Qubit
 
 def test_single_bit_0():
     qubit = Qubit.from_value(0)

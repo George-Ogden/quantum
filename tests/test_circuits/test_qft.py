@@ -2,8 +2,8 @@ from itertools import product
 import jax.numpy as jnp
 import numpy as np
 
-from src.circuits import QuantumFourierTransform as QFT, InverseQuantumFourierTransform as IQFT
-from src.qubit import Qubit
+from quantum.circuits import QuantumFourierTransform as QFT, InverseQuantumFourierTransform as IQFT
+from quantum.qubit import Qubit
 
 def test_qft_2():
     qft = QFT(2)
