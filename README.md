@@ -3,7 +3,7 @@ This is a library for simulating quantum computers written in JAX.
 ## Why JAX?
 It's **fast** and *differentiable*. I'm still thinking of a way that that would be useful.
 ## Usage
-The library is made of these mai components:
+The library is made of these main components:
 - Qubits
 - Gates
 - Circuits
