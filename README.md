@@ -4,10 +4,10 @@ This is a library for simulating quantum computers written in JAX.
 It's **fast** and *differentiable*. I'm still thinking of a way that that would be useful.
 ## Usage
 The library is made of these main components:
-- Qubits
-- Gates
-- Circuits
-- Algorithms
+- [Qubits](#qubits)
+- [Gates](#gates)
+- [Circuits](#circuits)
+- [Algorithms](#algorithms)
 ### Qubits
 ```python
 >>> from quantum.qubit import Qubit
