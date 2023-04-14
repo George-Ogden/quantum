@@ -83,3 +83,29 @@ Array(0., dtype=float32)
 >>> oracle(qubit.Plus + qubit.Plus + qubit.One).measure(0)
 Array(0.5, dtype=float32)
 ```
+### Algorithms
+```python
+from quantum.algorithms import DeutschJoszaAlgorithm, GroversAlgorithm
+# Deutsch-Jozsa Algorithm
+>>> oracle = Oracle.from_table([0, 1, 0, 1])
+>>> algorithm = DeutschJoszaAlgorithm(oracle)
+>>> algorithm.run()
+[Array(-0., dtype=float32), Array(1., dtype=float32)] # constant in "bit" 1 and balanced in "bit" 0
+>>> oracle = Oracle.from_table([0, 1, 1, 0])
+>>> algorithm = DeutschJoszaAlgorithm(oracle)
+>>> algorithm.run()
+[Array(1., dtype=float32), Array(1., dtype=float32)] # balanced in both "bits"
+>>> oracle = Oracle.from_table([0, 0, 0, 0])
+>>> algorithm = DeutschJoszaAlgorithm(oracle)
+>>> algorithm.run()
+[Array(-0., dtype=float32), Array(-0., dtype=float32)] # constant in both "bits"
+# Grover's Algorithm
+>>> oracle = Oracle.from_table([0, 1, 0, 0])
+>>> algorithm = GroversAlgorithm(oracle)
+>>> algorithm.run()
+[Array(0., dtype=float32), Array(1., dtype=float32)] # 1st value is a 1
+>>> oracle = Oracle.from_table([0, 0, 0, 0, 0, 0, 1, 0])
+>>> algorithm = GroversAlgorithm(oracle)
+>>> algorithm.run()
+[Array(0.97, dtype=float32), Array(0.97, dtype=float32), Array(0.03, dtype=float32)] # 6th value is a 1
+```
