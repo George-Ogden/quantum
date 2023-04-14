@@ -1,3 +1,5 @@
+from typing import List
+
 from ..gates import Gate, Hadamard, Oracle
 from ..circuits.circuit import Circuit
 from ..qubit import Qubit, Minus
@@ -19,13 +21,16 @@ class DeutschJoszaAlgorithm(Algorithm):
             # apply hadamard gate to all inputs
             Gate.parallel(*[Hadamard] * (self.n + 1)),
             # pass through oracle
-            self.oracle
+            self.oracle,
         ], "Deutsch-Jozsa")
     
     def get_start_state(self) -> Qubit:
         # start with all inputs set to 0 and the control qubit set to 1
         return Qubit.from_value(0, length=self.n, name="x") + Qubit.from_value(1, length=1, name="y")
     
-    def measure(self, qubit: Qubit) -> float:
-        # measure the control qubit in the Minus basis
-        return qubit.measure(basis=Minus, bit=self.n)
+    def measure(self, qubit: Qubit) -> List[float]:
+        # measure each bit to see if the function is balanced or constant over that bit
+        return [
+            qubit.measure(basis=Minus, bit=i)
+            for i in reversed(range(1, self.n + 1))
+        ]

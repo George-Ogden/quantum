@@ -1,8 +1,8 @@
+from abc import ABC, abstractmethod
+from typing import Optional, List
+
 from ..circuits.circuit import Circuit
 from ..qubit import Qubit
-
-from abc import ABC, abstractmethod
-from typing import Optional
 
 class Algorithm(ABC):
     """Abstract base class for algorithms"""
@@ -25,7 +25,7 @@ class Algorithm(ABC):
         return self.run(*args, **kwargs)
 
     @abstractmethod
-    def measure(self, qubit: Qubit) -> float:
+    def measure(self, qubit: Qubit) -> List[float]:
         ...
 
     def run(self) -> Qubit:
