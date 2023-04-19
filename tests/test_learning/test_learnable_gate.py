@@ -21,4 +21,5 @@ def test_gate_entanglement():
 def test_gate_uniqueness():
     gate1 = LearnableGate(1)
     gate2 = LearnableGate(1)
-    assert gate1 != gate2
+    assert not jnp.allclose(gate1.matrix, gate2.matrix)
+    assert gate1.idx != gate2.idx
