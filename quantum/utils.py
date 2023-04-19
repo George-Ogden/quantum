@@ -8,4 +8,5 @@ def to_matrix(x: jnp.ndarray) -> jnp.ndarray:
 
 # calculates the conjugate transpose of a matrix
 def hermitian(x: jnp.ndarray) -> jnp.ndarray:
-    return jnp.conj(to_matrix(x).T)
+    x = to_matrix(x)
+    return jnp.conj(x.transpose(*range(x.ndim - 2), -1, -2))
